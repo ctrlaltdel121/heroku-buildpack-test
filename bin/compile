@@ -1,0 +1,45 @@
+#!/bin/bash
+
+set -exo pipefail
+
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+indent() {
+  sed -u 's/^/       /'
+}
+
+load_env_dir() {
+  env_dir=$3
+  whitelist_regex=${2:-''}
+  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_dir" ]; then
+    for e in $(ls $env_dir); do
+      echo "$e" | grep -E "$whitelist_regex" | grep -qvE "$blacklist_regex" &&
+      export "$e=$(cat $env_dir/$e)" && echo "export \"$e=$(cat $env_dir/$e)\""
+      :
+    done
+  fi
+}
+
+echo "Test buildpack compile step..." | indent
+
+echo "Arguments" | indent
+echo BUILD_DIR=$BUILD_DIR | indent | indent
+echo CACHE_DIR=$CACHE_DIR | indent | indent
+echo ENV_DIR=$ENV_DIR | indent | indent
+
+echo "Environment before import:" | indent
+echo "Environment before import:" | indent
+set | indent | indent
+
+echo "Load environment:" | indent
+load_env_dir | indent | indent
+
+echo "Environment after import:" | indent
+set | indent | indent
+
+echo "Size of directories:" | indent
+echo "CACHE_DIR" | indent | indent
+du -h $CACHE_DIR | indent | indent | indent
