@@ -30,15 +30,14 @@ echo BUILD_DIR=$BUILD_DIR | indent | indent
 echo CACHE_DIR=$CACHE_DIR | indent | indent
 echo ENV_DIR=$ENV_DIR | indent | indent
 
-echo "Environment before import:" | indent
-echo "Environment before import:" | indent
+echo "Environment:" | indent
 set | indent | indent
 
-echo "Load environment:" | indent
+echo "Load app variables:" | indent
 load_env_dir | indent | indent
 
-echo "Environment after import:" | indent
-set | indent | indent
+#echo "Environment after import:" | indent
+#set | indent | indent
 
 echo "Size of directories:" | indent
 echo "CACHE_DIR" | indent | indent
